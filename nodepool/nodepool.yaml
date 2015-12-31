@@ -45,7 +45,7 @@ providers:
     username: 'demo'
     password: 'nomoresecrete'
     auth-url: 'http://10.203.19.1:5000/v2.0'
-    project-name: 'admin'
+    project-name: 'demo'
     max-servers: 2
     images:
       - name: dpc
