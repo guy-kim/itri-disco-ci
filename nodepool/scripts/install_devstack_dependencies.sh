@@ -38,7 +38,8 @@ elif [ -f /usr/bin/apt-get ]; then
             --assume-yes install --reinstall linux-headers-3.2.0-69 \
             linux-headers-3.2.0-69-virtual \
             linux-image-3.2.0-69-virtual \
-            python-software-properties build-essential python-dev python3-dev
+            python-software-properties build-essential python-dev python3-dev \
+            testrepository python-testrepository python3-testrepository
     else
         sudo DEBIAN_FRONTEND=noninteractive apt-get \
             --option "Dpkg::Options::=--force-confold" \
