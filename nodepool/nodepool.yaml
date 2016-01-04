@@ -44,8 +44,8 @@ providers:
 #TODO: Update the provider username, password, and authurl
     username: 'admin'
     password: 'nomoresecrete'
-    auth-url: 'http://10.203.19.1:5000/v2.0'
-    project-id: '9078b12ebd80427e897ae57ea66e1c27'
+    auth-url: 'http://192.168.112.23:5000/v2.0'
+    project-name: 'admin'
     max-servers: 2
     images:
       - name: dpc
