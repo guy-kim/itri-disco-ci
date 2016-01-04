@@ -47,6 +47,8 @@ providers:
     auth-url: 'http://192.168.112.24:5000/v2.0'
     project-name: 'admin'
     max-servers: 2
+    boot-timeout: 500
+    launch-timeout: 900
     images:
       - name: dpc
         min-ram: 2048
