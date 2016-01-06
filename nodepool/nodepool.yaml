@@ -44,7 +44,7 @@ providers:
 #TODO: Update the provider username, password, and authurl
     username: 'admin'
     password: 'nomoresecrete'
-    auth-url: 'http://192.168.112.24:5000/v2.0'
+    auth-url: 'http://10.211.11.23:5000/v2.0'
     project-name: 'admin'
     max-servers: 2
     boot-timeout: 500
