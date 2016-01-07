@@ -51,7 +51,7 @@ providers:
     launch-timeout: 900
     images:
       - name: dpc
-        min-ram: 2048
+        min-ram: 8192
         diskimage: dpc
         username: jenkins
         private-key: '/home/nodepool/.ssh/id_rsa'
