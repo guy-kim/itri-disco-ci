@@ -34,17 +34,17 @@ else:
 
 
 def main():
-    shell.parse_args([])
-    shell.CONF.set_override('connection', DB_URI, group='database')
-    session = api.get_session()
-    run_ids = api.get_recent_successful_runs(num_runs=10,
-                                             session=session)
-    session.close()
-    preseed_path = os.path.join(TEMPEST_PATH, 'preseed-streams')
-    os.mkdir(preseed_path)
-    for run in run_ids:
-        with open(os.path.join(preseed_path, run + '.subunit'), 'w') as fd:
-            write_subunit.sql2subunit(run, fd)
+#    shell.parse_args([])
+#    shell.CONF.set_override('connection', DB_URI, group='database')
+#    session = api.get_session()
+#    run_ids = api.get_recent_successful_runs(num_runs=10,
+#                                             session=session)
+#    session.close()
+#    preseed_path = os.path.join(TEMPEST_PATH, 'preseed-streams')
+#    os.mkdir(preseed_path)
+#    for run in run_ids:
+#        with open(os.path.join(preseed_path, run + '.subunit'), 'w') as fd:
+#            write_subunit.sql2subunit(run, fd)
 
 if __name__ == '__main__':
     main()
