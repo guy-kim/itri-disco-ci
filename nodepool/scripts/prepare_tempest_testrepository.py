@@ -34,7 +34,7 @@ else:
 
 
 def main():
-#    shell.parse_args([])
+    shell.parse_args([])
 #    shell.CONF.set_override('connection', DB_URI, group='database')
 #    session = api.get_session()
 #    run_ids = api.get_recent_successful_runs(num_runs=10,
