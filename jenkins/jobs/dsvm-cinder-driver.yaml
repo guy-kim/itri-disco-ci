@@ -32,7 +32,7 @@
           enabled_backends=disco
           default_volume_type=disco
 
-          [mybackend]
+          [disco]
           # add you driver configuration here
           volume_driver=cinder.volume.drivers.disco.disco.DISCODriver
           volume_backend_name=disco
