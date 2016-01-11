@@ -58,11 +58,10 @@
           EOF
 
               echo "Add disco client code"
-              sudo wget -P /etc/init.d/ http://10.211.12.1:/dms_clientnode
-              sudo mkdir -p /usr/cloudos/
               sudo wget -P /usr/cloudos/ http://10.211.12.1:/dms.tar.gz
               sudo sudo tar -zxvf /usr/cloudos/dms.tar.gz --directory /usr/cloudos/
- 
+              sudo sh /usr/cloudos/dms/bin/build_and_install.sh 
+              sudo /etc/init.d/dms_clientnode start
 
               echo "Cherry-picking latest driver from gerrit"
               cd $BASE/new/cinder
