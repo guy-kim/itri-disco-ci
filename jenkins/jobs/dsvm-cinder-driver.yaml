@@ -23,8 +23,8 @@
               cat <<EOF >$BASE/new/devstack/local.conf
 
            
-           CINDER_REPO=https://review.openstack.org/openstack/cinder
-           CINDER_BRANCH=refs/changes/56/253356/8
+           CINDER_REPO = https://review.openstack.org/openstack/cinder
+           CINDER_BRANCH = refs/changes/56/253356/8
 
 
           [[post-config|\$CINDER_CONF]]
@@ -34,8 +34,9 @@
 
           [disco]
           # add you driver configuration here
-          volume_driver=cinder.volume.drivers.disco.disco.DISCODriver
+          volume_driver=cinder.volume.drivers.disco.disco.DiscoDriver
           volume_backend_name=disco
+          disco_wsdl_path=/usr/cloudos/dms/conf/DISCOService.wsdl
 
           # Use post-extra because the tempest configuration file is
           # overwritten with the .sample after post-config.
