@@ -62,7 +62,8 @@
  
 
               echo "Cherry-picking latest driver from gerrit"
-              git fetch https://review.openstack.org/openstack/cinder refs/changes/56/253356/8 && git cherry-pick FETCH_HEAD              
+              cd $BASE/new/cinder
+              git fetch https://review.openstack.org/openstack/cinder refs/changes/56/253356/8 && git cherry-pick FETCH_HEAD
           }}
 
           export -f pre_test_hook
