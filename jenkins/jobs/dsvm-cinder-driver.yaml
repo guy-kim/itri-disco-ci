@@ -23,8 +23,8 @@
               cat <<EOF >$BASE/new/devstack/local.conf
 
            
-           CINDER_REPO = https://review.openstack.org/openstack/cinder
-           CINDER_BRANCH = refs/changes/56/253356/8
+#           CINDER_REPO = https://review.openstack.org/openstack/cinder
+#           CINDER_BRANCH = refs/changes/56/253356/8
 
 
           [[post-config|\$CINDER_CONF]]
@@ -65,6 +65,29 @@
               sudo wget -P /usr/cloudos/ http://10.211.12.1:/dms.tar.gz
               sudo sudo tar -zxvf /usr/cloudos/dms.tar.gz --directory /usr/cloudos/
  
+
+              echo "Cherry-picking latest driver from gerrit"
+              cd $BASE/new/cinder
+          
+              # fetch latest patchset from gerrit
+              UPSTREAM_REMOTE=https://review.openstack.org/openstack/cinder
+          
+              # set this to your gerrit change number
+              CHANGE_NUM=253356
+          
+              PATCHSET_BASE=refs/changes/${CHANGE_NUM:(-2)}/$CHANGE_NUM
+              LATEST_PATCHSET=$(git ls-remote $UPSTREAM_REMOTE $PATCHSET_BASE/\* |
+                                sort -t/ -k 5 -n | tail -n1 | cut -d$'\t' -f2)
+          
+              if [ -z "$LATEST_PATCHSET" ]; then
+                  echo "Failed to determine latest patchset of $PATCHSET_BASE from $UPSTREAM_REMOTE"
+                  exit 1
+              fi
+          
+              echo "Latest patchset ref is $LATEST_PATCHSET"
+                        
+              git fetch $UPSTREAM_REMOTE $LATEST_PATCHSET && git cherry-pick FETCH_HEAD
+
           }}
 
           export -f pre_test_hook
