@@ -51,11 +51,13 @@
           EOF
 
               echo "Configure DISCO domain name"
+              sudo chmod 777 /etc/hosts
               sudo cat <<EOF >>/etc/hosts
 
           10.211.12.12 dms.ccma.itri dms
           10.211.12.13 dss.ccma.itri dss
           EOF
+              sudo chmod 744 /etc/hosts
 
               echo "Add disco client code"
               sudo wget -P /usr/cloudos/ http://10.211.12.1:/dms.tar.gz
