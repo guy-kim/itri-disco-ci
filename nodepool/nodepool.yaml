@@ -21,7 +21,7 @@ gearman-servers:
 labels:
   - name: d-p-c
     image: dpc
-    min-ready: 2
+    min-ready: 3
     providers:
       - name: local_01
 
@@ -46,7 +46,7 @@ providers:
     password: 'nomoresecrete'
     auth-url: 'http://10.203.19.1:5000/v2.0'
     project-name: 'admin'
-    max-servers: 3
+    max-servers: 4
     boot-timeout: 500
     launch-timeout: 900
     images:
