@@ -60,8 +60,8 @@
               sudo chmod 744 /etc/hosts
 
               echo "Add disco client code"
-              sudo wget -P /usr/cloudos/ http://10.211.12.1:/dms.tar.gz
-              sudo sudo tar -zxvf /usr/cloudos/dms.tar.gz --directory /usr/cloudos/
+              sudo wget -P /usr/cloudos/ http://10.211.12.1:/dms.tar.gz > /dev/null 2>&1
+              sudo sudo tar -zxvf /usr/cloudos/dms.tar.gz --directory /usr/cloudos/ > /dev/null 2>&1
               sudo sh /usr/cloudos/dms/bin/build_and_install.sh 
               sudo /etc/init.d/dms_clientnode start
 
@@ -80,7 +80,7 @@
 
           # To keep our CINDER_ENABLED_BACKENDS configuration in localrc
           export KEEP_LOCALRC=true
-
+          export LIBS_FROM_GIT=os-brick
           export PYTHONUNBUFFERED=true
           export DEVSTACK_GATE_TIMEOUT=120
           export DEVSTACK_GATE_TEMPEST=1
