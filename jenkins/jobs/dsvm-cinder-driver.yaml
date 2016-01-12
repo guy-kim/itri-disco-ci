@@ -74,6 +74,8 @@
 
               cd $BASE/new/os-brick
               git fetch https://review.openstack.org/openstack/os-brick refs/changes/52/253352/9 && git cherry-pick FETCH_HEAD
+
+              export LIBS_FROM_GIT=os-brick
           }}
 
           export -f pre_test_hook
