@@ -46,8 +46,8 @@
 
               echo "Configure localrc file to properly setup CINDER_ENABLED_BACKENDS"
               cat <<EOF >>$BASE/new/devstack/localrc
-          CINDER_ENABLED_BACKENDS=disco:disco
           LIBS_FROM_GIT=os-brick
+          CINDER_ENABLED_BACKENDS=disco:disco
           EOF
 
               echo "Configure DISCO domain name"
