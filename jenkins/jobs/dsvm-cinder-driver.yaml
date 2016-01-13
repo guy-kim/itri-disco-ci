@@ -1,5 +1,5 @@
 - job-template:
-    name: 'dsvm-tempest-my-cinder-driver'
+    name: 'dsvm-tempest-ITRI-DISCO-cinder-driver'
     node: '{node}'
 
     wrappers:
@@ -42,6 +42,9 @@
           storage_protocol=disco
           vendor_name=ITRI
           backend1_name=disco
+
+          [volume-feature-enabled]
+          backup=False
           EOF
 
               echo "Configure localrc file to properly setup CINDER_ENABLED_BACKENDS"
@@ -63,7 +66,7 @@
               sudo wget -P /usr/cloudos/ http://10.211.12.1:/dms.tar.gz > /dev/null 2>&1
               sudo sudo tar -zxvf /usr/cloudos/dms.tar.gz --directory /usr/cloudos/ > /dev/null 2>&1
               sudo sh /usr/cloudos/dms/bin/build_and_install.sh 
-              # sudo /etc/init.d/dms_clientnode start
+              sudo /etc/init.d/dms_clientnode start
 
               echo "Cherry-picking latest driver from gerrit"
               cd $BASE/new/cinder
