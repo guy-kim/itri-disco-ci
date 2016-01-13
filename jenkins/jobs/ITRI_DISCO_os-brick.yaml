@@ -42,6 +42,7 @@
               export ZUUL_BRANCH=master
           fi
 
+          export ZUUL_URL="http://review.openstack.org/p/"
           cp devstack-gate/devstack-vm-gate-wrap.sh ./safe-devstack-vm-gate-wrap.sh
           ./safe-devstack-vm-gate-wrap.sh
 
