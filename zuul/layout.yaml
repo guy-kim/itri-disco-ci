@@ -73,7 +73,9 @@ projects:
       # Remove this after successfully verifying communication with upstream
       # and seeing a posted successful review.
       - noop-check-communication
-    silent:
-      # Uncomment this job when you have a jenkins slave running and want to
-      # test a full Tempest run within devstack.
-      - dsvm-tempest-full
+  - name: openstack/os-brick
+    check:
+      # Remove this after successfully verifying communication with upstream
+      # and seeing a posted successful review.
+      - ITRI_DISCO_os-brick
+
