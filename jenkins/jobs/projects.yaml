@@ -5,7 +5,7 @@
     vendor: ITRI DISCO CI
 
     jobs:
-        - noop-check-communication
+        - noop-check-communication:
             node: 'd-p-c'
         - dsvm-tempest-full:
             node: 'devstack_slave || devstack-precise-check || d-p-c'
