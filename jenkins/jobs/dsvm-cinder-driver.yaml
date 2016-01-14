@@ -63,6 +63,7 @@
               sudo chmod 744 /etc/hosts
 
               echo "Add disco client code"
+              sudo iptables -I openstack-INPUT 1 -p tcp -m multiport --ports 9898 -m comment --comment "9898 for DISCO agent" -j ACCEPT
               sudo wget -P /usr/cloudos/ http://10.211.12.1:/dms.tar.gz > /dev/null 2>&1
               sudo sudo tar -zxvf /usr/cloudos/dms.tar.gz --directory /usr/cloudos/ > /dev/null 2>&1
               sudo sh /usr/cloudos/dms/bin/build_and_install.sh > /dev/null 2>&1
