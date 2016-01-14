@@ -78,4 +78,9 @@ projects:
       # Remove this after successfully verifying communication with upstream
       # and seeing a posted successful review.
       - ITRI_DISCO_os-brick
+  - name: openstack/cinder
+    check:
+      # Remove this after successfully verifying communication with upstream
+      # and seeing a posted successful review.
+      - dsvm-tempest-ITRI-DISCO-cinder-driver
 
