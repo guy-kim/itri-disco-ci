@@ -4,7 +4,7 @@
 
     wrappers:
       - timeout:
-          timeout: 125
+          timeout: 180
           fail: true
       - timestamps
 
@@ -88,7 +88,7 @@
           export KEEP_LOCALRC=true
           export LIBS_FROM_GIT=os-brick
           export PYTHONUNBUFFERED=true
-          export DEVSTACK_GATE_TIMEOUT=120
+          export DEVSTACK_GATE_TIMEOUT=170
           export DEVSTACK_GATE_TEMPEST=1
           export DEVSTACK_GATE_TEMPEST_REGEX="volume"
           export DEVSTACK_PROJECT_FROM_GIT=os-brick

@@ -4,7 +4,7 @@
 
     wrappers:
       - timeout:
-          timeout: 125
+          timeout: 180
           fail: true
       - timestamps
 
@@ -28,7 +28,7 @@
           export KEEP_LOCALRC=true
 
           export PYTHONUNBUFFERED=true
-          export DEVSTACK_GATE_TIMEOUT=120
+          export DEVSTACK_GATE_TIMEOUT=170
           export DEVSTACK_GATE_TEMPEST=1
           export DEVSTACK_GATE_TEMPEST_REGEX="volume"
 
