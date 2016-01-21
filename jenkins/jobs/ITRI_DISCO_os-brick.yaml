@@ -4,7 +4,7 @@
 
     wrappers:
       - timeout:
-          timeout: 180
+          timeout: 240
           fail: true
       - timestamps
 
@@ -20,18 +20,80 @@
               #TODO: update your client here if needed, otherwise delete
               # sudo -H pip install mydriverclient
               echo "Configure the local.conf file to properly setup hp lefthand driver in cinder.conf"
+              cat <<EOF >$BASE/new/devstack/local.conf
+
+          LIBS_FROM_GIT=os-brick
+
+          [[post-config|\$CINDER_CONF]]
+          [DEFAULT]
+          enabled_backends=disco
+          default_volume_type=disco
+
+          [disco]
+          # add you driver configuration here
+          volume_driver=cinder.volume.drivers.disco.disco.DiscoDriver
+          volume_backend_name=disco
+          disco_wsdl_path=/usr/cloudos/dms/conf/DISCOService.wsdl
+
+          # Use post-extra because the tempest configuration file is
+          # overwritten with the .sample after post-config.
+          [[post-extra|\$TEMPEST_CONFIG]]
+          [volume]
+          storage_protocol=disco
+          vendor_name=ITRI
+          backend1_name=disco
+
+          [volume-feature-enabled]
+          backup=False
+          EOF
+
+              echo "Configure localrc file to properly setup CINDER_ENABLED_BACKENDS"
+              cat <<EOF >>$BASE/new/devstack/localrc
+          LIBS_FROM_GIT=os-brick
+          CINDER_ENABLED_BACKENDS=disco:disco
+          EOF
+
+              echo "Configure DISCO domain name"
+              sudo chmod 777 /etc/hosts
+              sudo cat <<EOF >>/etc/hosts
+
+          10.211.12.12 dms.ccma.itri dms
+          10.211.12.13 dss.ccma.itri dss
+          EOF
+              sudo chmod 744 /etc/hosts
+
+              echo "Add disco client code"
+              sudo iptables -I openstack-INPUT 1 -p tcp -m multiport --ports 9898 -m comment --comment "9898 for DISCO agent" -j ACCEPT
+              sudo wget -P /usr/cloudos/ http://10.211.12.1:/dms.tar.gz > /dev/null 2>&1
+              sudo sudo tar -zxvf /usr/cloudos/dms.tar.gz --directory /usr/cloudos/ > /dev/null 2>&1
+              sudo sh /usr/cloudos/dms/bin/build_and_install.sh > /dev/null 2>&1
+              sudo /etc/init.d/dms_clientnode start > /dev/null 2>&1
+              sleep 5
+              sudo /etc/init.d/dms_clientnode status
+
+              echo "Cherry-picking latest driver from gerrit"
+              # cd $BASE/new/cinder
+              # git fetch https://review.openstack.org/openstack/cinder refs/changes/56/253356/8 && git cherry-pick FETCH_HEAD
+
+              cd $BASE/new/nova
+              git fetch https://review.openstack.org/openstack/nova refs/changes/53/253353/1 && git cherry-pick FETCH_HEAD
+
+              cd $BASE/new/os-brick
+              git fetch https://review.openstack.org/openstack/os-brick refs/changes/52/253352/10 && git cherry-pick FETCH_HEAD
+
+              export LIBS_FROM_GIT=os-brick
           }}
 
           export -f pre_test_hook
 
           # To keep our CINDER_ENABLED_BACKENDS configuration in localrc
           export KEEP_LOCALRC=true
-
+          export LIBS_FROM_GIT=os-brick
           export PYTHONUNBUFFERED=true
-          export DEVSTACK_GATE_TIMEOUT=170
+          export DEVSTACK_GATE_TIMEOUT=220
           export DEVSTACK_GATE_TEMPEST=1
           export DEVSTACK_GATE_TEMPEST_REGEX="volume"
-
+          export DEVSTACK_PROJECT_FROM_GIT=os-brick
           # Let's use the http protocol instead of git protocol
           export GIT_BASE=https://git.openstack.org
 

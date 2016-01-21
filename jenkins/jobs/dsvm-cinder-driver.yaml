@@ -4,7 +4,7 @@
 
     wrappers:
       - timeout:
-          timeout: 180
+          timeout: 240
           fail: true
       - timestamps
 
@@ -68,6 +68,8 @@
               sudo sudo tar -zxvf /usr/cloudos/dms.tar.gz --directory /usr/cloudos/ > /dev/null 2>&1
               sudo sh /usr/cloudos/dms/bin/build_and_install.sh > /dev/null 2>&1
               sudo /etc/init.d/dms_clientnode start > /dev/null 2>&1
+              sleep 5
+              sudo /etc/init.d/dms_clientnode status
 
               echo "Cherry-picking latest driver from gerrit"
               # cd $BASE/new/cinder
@@ -88,7 +90,7 @@
           export KEEP_LOCALRC=true
           export LIBS_FROM_GIT=os-brick
           export PYTHONUNBUFFERED=true
-          export DEVSTACK_GATE_TIMEOUT=170
+          export DEVSTACK_GATE_TIMEOUT=220
           export DEVSTACK_GATE_TEMPEST=1
           export DEVSTACK_GATE_TEMPEST_REGEX="volume"
           export DEVSTACK_PROJECT_FROM_GIT=os-brick
