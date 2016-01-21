@@ -66,6 +66,10 @@ pipelines:
 jobs:
   - name: ^dsvm-tempest.*$
     parameter-function: single_use_node
+  - name: ITRI_DISCO_os-brick
+    parameter-function: single_use_node
+  - name: dsvm-tempest-ITRI-DISCO-cinder-driver
+    parameter-function: single_use_node
 
 projects:
   - name: openstack-dev/ci-sandbox
