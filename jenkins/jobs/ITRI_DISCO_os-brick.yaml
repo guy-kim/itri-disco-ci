@@ -82,6 +82,9 @@
           export PYTHONUNBUFFERED=true
           export DEVSTACK_GATE_TIMEOUT=220
           export DEVSTACK_GATE_TEMPEST=1
+          export BUILD_TIMEOUT=220
+          export DEVSTACK_GATE_TIMEOUT_BUFFER=20
+
           export DEVSTACK_GATE_TEMPEST_REGEX="volume"
           export DEVSTACK_PROJECT_FROM_GIT=os-brick
           # Let's use the http protocol instead of git protocol
