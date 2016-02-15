@@ -81,7 +81,7 @@
           export PYTHONUNBUFFERED=true
           # export DEVSTACK_GATE_TIMEOUT=220
           export DEVSTACK_GATE_TEMPEST=1
-          export BUILD_TIMEOUT=220
+          export BUILD_TIMEOUT=14400000
           export DEVSTACK_GATE_TIMEOUT_BUFFER=20
 
           export DEVSTACK_GATE_TEMPEST_REGEX="volume"
