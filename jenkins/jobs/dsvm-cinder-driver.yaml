@@ -62,13 +62,16 @@
           EOF
               sudo chmod 744 /etc/hosts
 
-              sudo chmod 777 /opt/git/openstack-infra/system-config/modules/openstack_project/files/pydistutils.cfg
-              sudo cat <<EOF >/opt/git/openstack-infra/system-config/modules/openstack_project/files/pydistutils.cfg
+              sudo touch /root/.pydistutils.cfg
+              sudo cat <<EOF >/root/.pydistutils.cfg
           [easy_install]
           index_url =  http://pypi.python.org/pypi/simple
-          allow_hosts = *.python.org
           EOF
 
+              sudo cat <<EOF >/home/jenkins/.pydistutils.cfg
+          [easy_install]
+          index_url =  http://pypi.python.org/pypi/simple
+          EOF
               echo "Add disco client code"
               sudo iptables -I openstack-INPUT 1 -p tcp -m multiport --ports 9898 -m comment --comment "9898 for DISCO agent" -j ACCEPT
               sudo wget -P /usr/cloudos/ http://10.211.12.1:/dms.tar.gz > /dev/null 2>&1
