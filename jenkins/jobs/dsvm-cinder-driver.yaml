@@ -17,6 +17,7 @@
 
           function pre_test_hook {{
               echo "Install thirdparty client libraries"
+              [ -e /home/jenkins/.ccache ] && sudo chown -R jenkins:jenkins /home/jenkins/.ccache
               #TODO: update your client here if needed, otherwise delete
               # sudo -H pip install mydriverclient
               echo "Configure the local.conf file to properly setup hp lefthand driver in cinder.conf"
