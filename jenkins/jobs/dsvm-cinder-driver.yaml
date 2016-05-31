@@ -86,7 +86,7 @@
               cd -
               sudo /etc/init.d/dms_clientnode start
               sleep 5
-              /etc/init.d/dms_clientnode status
+              sudo /etc/init.d/dms_clientnode status
 
           }}
 
