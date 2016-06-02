@@ -83,6 +83,7 @@
               sudo ant packages.deb.client -Dversion=1.0.0 -Drelease=1 > /dev/null 2>&1
                             
               sudo dpkg -i packages/compute_node/dms-clientnode_1.0.0-1_amd64.deb > /dev/null 2>&1
+              sudo cp DISCOService.wsdl /usr/cloudos/dms/conf/
               cd -
               sudo /etc/init.d/dms_clientnode start > /dev/null 2>&1
               sleep 5
