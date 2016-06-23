@@ -1,0 +1,104 @@
+- job-template:
+    name: '{pipeline}-cinderclient-dsvm-functional{special}{job-suffix}'
+    node: '{node}'
+
+    wrappers:
+      - build-timeout:
+          timeout: 300
+      - timestamps
+
+    builders:
+      - link-logs
+      - net-info
+      - devstack-checkout
+      - shell: |
+          #!/bin/bash -xe
+          export PYTHONUNBUFFERED=true
+          export BRANCH_OVERRIDE={branch-override}
+          export PROJECTS="openstack/python-cinderclient $PROJECTS"
+          export DEVSTACK_PROJECT_FROM_GIT=python-cinderclient
+          if [ "$BRANCH_OVERRIDE" != "default" ] ; then
+              export OVERRIDE_ZUUL_BRANCH=$BRANCH_OVERRIDE
+          fi
+          if [ "{special}" == "-identity-v3-only" ] ; then
+              export DEVSTACK_LOCAL_CONFIG="ENABLE_IDENTITY_V2=False"
+          fi
+          function post_test_hook {{
+              # Configure and run functional tests
+              $BASE/new/python-cinderclient/cinderclient/tests/functional/hooks/post_test_hook.sh
+
+              echo "Install thirdparty client libraries"
+              [ -e /home/jenkins/.ccache ] && sudo chown -R jenkins:jenkins /home/jenkins/.ccache
+              #TODO: update your client here if needed, otherwise delete
+              # sudo -H pip install mydriverclient
+              echo "Configure the local.conf file to properly setup hp lefthand driver in cinder.conf"
+              cat <<EOF >$BASE/new/devstack/local.conf
+          LIBS_FROM_GIT=os-brick
+          [[post-config|\$CINDER_CONF]]
+          [DEFAULT]
+          enabled_backends=disco
+          default_volume_type=disco
+          [disco]
+          # add you driver configuration here
+          volume_driver=cinder.volume.drivers.disco.disco.DiscoDriver
+          volume_backend_name=disco
+          disco_wsdl_path=/usr/cloudos/dms/conf/DISCOService.wsdl
+          # Use post-extra because the tempest configuration file is
+          # overwritten with the .sample after post-config.
+          [[post-extra|\$TEMPEST_CONFIG]]
+          [volume]
+          storage_protocol=disco
+          vendor_name=ITRI
+          backend1_name=disco
+          [volume-feature-enabled]
+          backup=False
+          EOF
+              echo "Configure localrc file to properly setup CINDER_ENABLED_BACKENDS"
+              cat <<EOF >>$BASE/new/devstack/localrc
+          LIBS_FROM_GIT=os-brick
+          CINDER_ENABLED_BACKENDS=disco:disco
+          EOF
+              echo "Configure DISCO domain name"
+              sudo chmod 777 /etc/hosts
+              sudo cat <<EOF >>/etc/hosts
+          10.211.12.12 dms.ccma.itri dms
+          10.211.12.13 dss.ccma.itri dss
+          EOF
+              sudo chmod 744 /etc/hosts
+              sudo touch /root/.pydistutils.cfg
+              sudo cat <<EOF >/root/.pydistutils.cfg
+          [easy_install]
+          index_url =  http://pypi.python.org/pypi/simple
+          EOF
+              sudo cat <<EOF >/home/jenkins/.pydistutils.cfg
+          [easy_install]
+          index_url =  http://pypi.python.org/pypi/simple
+          EOF
+              echo "Add disco client code"
+              sudo iptables -I openstack-INPUT 1 -p tcp -m multiport --ports 9898 -m comment --comment "9898 for DISCO agent" -j ACCEPT
+              sudo apt-get install -y  ant build-essential debhelper fakeroot > /dev/null 2>&1
+              sudo wget -P /tmp http://10.211.12.1/dms-src.tgz > /dev/null 2>&1
+              sudo tar -zxvf /tmp/dms-src.tgz -C /tmp > /dev/null 2>&1
+              cd /tmp/dms/
+              sudo ant packages.deb.client -Dversion=1.0.0 -Drelease=1 > /dev/null 2>&1
+                            
+              sudo dpkg -i packages/compute_node/dms-clientnode_1.0.0-1_amd64.deb > /dev/null 2>&1
+              sudo cp DISCOService.wsdl /usr/cloudos/dms/conf/
+              cd -
+              sudo /etc/init.d/dms_clientnode start > /dev/null 2>&1
+              sleep 5
+              sudo /etc/init.d/dms_clientnode status
+            
+              export LIBS_FROM_GIT=os-brick
+
+          }}
+          export -f post_test_hook
+
+          cp devstack-gate/devstack-vm-gate-wrap.sh ./safe-devstack-vm-gate-wrap.sh
+          ./safe-devstack-vm-gate-wrap.sh
+
+    publishers:
+      - test-results
+      - devstack-logs
+      - console-log
+
