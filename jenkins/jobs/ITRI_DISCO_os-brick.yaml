@@ -22,7 +22,7 @@
               # sudo -H pip install mydriverclient
               echo "Configure the local.conf file to properly setup hp lefthand driver in cinder.conf"
               cat <<EOF >$BASE/new/devstack/local.conf
-
+          echo "Test change."
           LIBS_FROM_GIT=os-brick
 
           [[post-config|\$CINDER_CONF]]
