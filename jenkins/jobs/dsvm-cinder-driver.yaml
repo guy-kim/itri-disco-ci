@@ -58,8 +58,8 @@
               sudo chmod 777 /etc/hosts
               sudo cat <<EOF >>/etc/hosts
 
-          10.211.12.12 dms.ccma.itri dms
-          10.211.12.13 dss.ccma.itri dss
+          10.203.126.20 dms.ccma.itri dms
+          10.203.126.21 dss.ccma.itri dss
           EOF
               sudo chmod 744 /etc/hosts
 

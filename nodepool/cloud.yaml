@@ -1,0 +1,14 @@
+# Insert OSCC file contents here as explained in the
+# documentation so that nodepool is able to
+# authenticate to your cloud(s)
+#
+clouds:
+  cicloud:
+    auth:
+      auth_url: http://10.211.127.1:5000/v3
+      username: demo
+      password: demo
+      project_name: demo
+      project_domain_id: default
+      user_domain_id: default
+    identity_api_version: 3

@@ -13,25 +13,15 @@ pipelines:
         - event: change-restored
         # TODO: Change "myvendor" below to your vendor's name to add a custom
         # recheck trigger that runs the check pipeline jobs when someone
-        # adds a comment to a review that says "recheck myvendor".
+        # adds a comment to a review that says "myvendor: recheck".
         - event: comment-added
-          comment: (?i)^(Patch Set [0-9]+:)?( [\w\\+-]*)*(\n\n)?\s*recheck ITRI DISCO CI\s*$
+          comment: (?i)^(Patch Set [0-9]+:)?( [\w\\+-]*)*(\n\n)?\s*ITRI DISCO CI:\s*recheck\s*$
     success:
       gerrit:
         verified: 1
-      smtp:
-        #TODO: Update these to real e-mail addresses
-        to: cinder_ci@itri.org.tw
-        from: cinder_ci@itri.org.tw
-        subject: 'Silent check of {change.project} {change.number},{change.patchset} passed'
     failure:
       gerrit:
         verified: -1
-      smtp:
-        #TODO: Update these to real e-mail addresses
-        to: cinder_ci@itri.org.tw
-        from: cinder_ci@itri.org.tw
-        subject: 'Silent check of {change.project} {change.number},{change.patchset} failed'
     merge-failure:
       smtp:
         #TODO: Update these to real e-mail addresses
@@ -48,7 +38,7 @@ pipelines:
         - event: patchset-created
         - event: change-restored
         - event: comment-added
-          comment: (?i)^(Patch Set [0-9]+:)?( [\w\\+-]*)*(\n\n)?\s*recheck ITRI DISCO CI\s*$
+          comment: (?i)^(Patch Set [0-9]+:)?( [\w\\+-]*)*(\n\n)?\s*ITRI DISCO CI:\s*recheck\s*$
     success:
       smtp:
         #TODO: Update these to real e-mail addresses
