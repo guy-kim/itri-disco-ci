@@ -26,7 +26,7 @@ gearman-servers:
 labels:
   - name: d-p-c
     image: dpc
-    min-ready: 2
+    min-ready: 1
     providers:
       - name: local_01
 
@@ -51,6 +51,12 @@ providers:
     max-servers: 3
     boot-timeout: 500
     launch-timeout: 900
+    pool: 'provider'
+    ipv6-preferred: False
+    networks:
+      - name: 'selfservice'
+        public: True
+
     images:
       - name: dpc
         min-ram: 10240
