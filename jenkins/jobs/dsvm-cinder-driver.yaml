@@ -76,7 +76,7 @@
               echo "Add disco client code"
               sudo iptables -I openstack-INPUT 1 -p tcp -m multiport --ports 9898 -m comment --comment "9898 for DISCO agent" -j ACCEPT
               sudo apt-get install -y ant build-essential debhelper fakeroot  > /dev/null 2>&1
-              sudo wget -P /tmp http://10.211.12.1/dms-src.tgz > /dev/null 2>&1
+              sudo wget -P /tmp http://10.206.11.7/dms-src.tgz > /dev/null 2>&1
               sudo tar -zxvf /tmp/dms-src.tgz -C /tmp > /dev/null 2>&1
               
               cd /tmp/dms/
