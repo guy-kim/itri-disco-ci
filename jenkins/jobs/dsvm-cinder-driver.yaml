@@ -29,16 +29,18 @@
           [DEFAULT]
           enabled_backends=disco
           default_volume_type=disco
+          rest_ip=10.203.126.7
 
           [disco]
           # add you driver configuration here
           volume_driver=cinder.volume.drivers.disco.disco.DiscoDriver
           volume_backend_name=disco
           disco_wsdl_path=/usr/cloudos/dms/conf/DISCOService.wsdl
+          choice_client=soap
 
           # Use post-extra because the tempest configuration file is
           # overwritten with the .sample after post-config.
-          [[post-extra|\$TEMPEST_CONFIG]]
+          [[test-config|\$TEMPEST_CONFIG]]
           [compute]
           build_timeout=300
 
@@ -46,6 +48,7 @@
           storage_protocol=disco
           vendor_name=ITRI
           backend_names=disco
+          build_timeout=300
 
           [volume-feature-enabled]
           backup=False
