@@ -1,0 +1,41 @@
+{
+  "distro": {
+    "fedora": {
+      "python3-dev": "python3-devel"
+    },
+    "gentoo": {
+      "build-essential": "",
+      "cron": "sys-process/cronie",
+      "ntp": "net-misc/ntp",
+      "python-dev": "",
+      "python3-dev": "",
+      "traceroute": "net-analyzer/traceroute",
+      "uuid-runtime": ""
+    }
+  },
+  "family": {
+    "redhat": {
+      "cron": "cronie",
+      "build-essential": "glibc-devel gcc make",
+      "dnsutils": "bind-utils",
+      "iputils-ping": "iputils",
+      "ntp": "ntp ntp-perl",
+      "python-dev": "python-devel",
+      "python3-dev": "",
+      "uuid-runtime": ""
+    },
+    "suse": {
+      "dnsutils": "bind-utils",
+      "git": "git-core",
+      "iputils-ping": "iputils",
+      "ntpdate": "",
+      "puppet": "ruby2.1-rubygem-puppet",
+      "python-dev": "python-devel",
+      "python3-dev": "python3-devel",
+      "uuid-runtime": "uuidd"
+    }
+  },
+  "default": {
+    "gentoolkit": ""
+  }
+}

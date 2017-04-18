@@ -1,1 +1,5 @@
+install-static
+package-installs
+pip-and-virtualenv
 puppet
+zuul-worker
