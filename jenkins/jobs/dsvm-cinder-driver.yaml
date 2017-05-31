@@ -27,7 +27,9 @@
             enabled_backends=disco
             default_volume_type=disco
             rest_ip=10.203.126.7
+            san_ip=10.203.126.7
             choice_client=soap
+            client_protocol=soap
 
             [disco]
             # add you driver configuration here

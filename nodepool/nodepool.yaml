@@ -44,6 +44,7 @@ diskimages:
       - growroot
       - infra-package-needs
       - stackviz
+      - jenkins-slave
     release: xenial
     env-vars:
       TMPDIR: /opt/dib_tmp
