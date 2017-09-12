@@ -17,7 +17,7 @@
 
             function pre_test_hook {
                 echo "Install thirdparty client libraries"
-                [ -e /home/jenkins/.ccache ] && sudo chown -R jenkins:jenkins /home/jenkins/.ccache
+                [ -e /home/jenkins/.cache ] && sudo chown -R jenkins:jenkins /home/jenkins/.cache
                 #TODO: update your client here if needed, otherwise delete
                 # sudo -H pip install mydriverclient
                 echo "Configure the local.conf file to properly setup hp lefthand driver in cinder.conf"
@@ -27,34 +27,51 @@
             enabled_backends=disco
             default_volume_type=disco
             rest_ip=10.203.126.7
-            san_ip=10.203.126.7
+            # san_ip=10.203.126.7
             choice_client=soap
-            client_protocol=soap
+            disco_client_protocol = soap
+            # client_protocol=soap
 
             [disco]
             # add you driver configuration here
             volume_driver=cinder.volume.drivers.disco.disco.DiscoDriver
             volume_backend_name=disco
             disco_wsdl_path=/usr/cloudos/dms/conf/DISCOService.wsdl
+            rest_ip=10.203.126.7
+            # san_ip=10.203.126.7
+            choice_client=soap
+            disco_client_protocol = soap
+            # client_protocol=soap
 
             # Use post-extra because the tempest configuration file is
             # overwritten with the .sample after post-config.
             [[test-config|\$TEMPEST_CONFIG]]
+            [image]
+            http_image=http://127.0.0.1/
+
+            [validation]
+            ssh_timeout=300
+
             [compute]
-            build_timeout=300
+            build_timeout=600
 
             [volume]
             storage_protocol=disco
             vendor_name=ITRI
             backend_names=disco
-            build_timeout=300
+            build_timeout=600
 
             [compute-feature-enabled]
-            swap_volume=False
+            attach_encrypted_volume=False
 
             [volume-feature-enabled]
             backup=False
             manage_snapshot=False
+
+            [service_available]
+            horizon=False
+            swift=False
+
             EOF
 
             #     echo "Configure localrc file to properly setup CINDER_ENABLED_BACKENDS"
@@ -90,18 +107,24 @@
             EOF
                 echo "Add disco client code"
                 sudo iptables -I openstack-INPUT 1 -p tcp -m multiport --ports 9898 -m comment --comment "9898 for DISCO agent" -j ACCEPT
+                sudo apt-get update
                 sudo apt-get install -y ant build-essential debhelper fakeroot linux-headers-$(uname -r) bc > /dev/null 2>&1
                 sudo wget -P /tmp http://10.206.11.7/cinder-ci/dms-src.tgz > /dev/null 2>&1
                 sudo tar -zxvf /tmp/dms-src.tgz -C /tmp > /dev/null 2>&1
                 
+                
+                
                 cd /tmp/dms/
-                sudo ant packages.deb.client -Dversion=1.0.0 -Drelease=1 > /dev/null 2>&1
-                sudo dpkg -i packages/compute_node/dms-clientnode_1.0.0-1_amd64.deb > /dev/null 2>&1
+                #sudo ant packages.deb.client -Dversion=1.0.0 -Drelease=1 > /dev/null 2>&1
+                sudo ant packages.deb.client -Dversion=1.0.0 -Drelease=1
+                #sudo dpkg -i packages/compute_node/dms-clientnode_1.0.0-1_amd64.deb > /dev/null 2>&1
+                #sudo dpkg -i packages/compute_node/dms-clientnode_1.0.0-1_amd64.deb
+                sudo dpkg -i src/Utils/DebBuilder/packages/disco-client_1.0.0-1_all.deb
                 sudo cp DISCOService.wsdl /usr/cloudos/dms/conf/
                 cd -
-                sudo /etc/init.d/dms_clientnode start > /dev/null 2>&1
+                sudo /etc/init.d/disco-client start > /dev/null 2>&1
                 sleep 5
-                sudo /etc/init.d/dms_clientnode status
+                sudo /etc/init.d/disco-client status
 
             }
 
@@ -138,6 +161,8 @@
             sudo apt-get install -y bridge-utils ebtables > /dev/null 2>&1
 
             cp devstack-gate/devstack-vm-gate-wrap.sh ./safe-devstack-vm-gate-wrap.sh
+            # workarround
+            # sed -i 's/\/tmp\/ansible\/bin\/pip install pbr/\/tmp\/ansible\/bin\/pip install pbr six/g' ./safe-devstack-vm-gate-wrap.sh
             ./safe-devstack-vm-gate-wrap.sh
 
 
