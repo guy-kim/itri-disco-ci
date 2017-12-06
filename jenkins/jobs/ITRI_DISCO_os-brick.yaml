@@ -26,10 +26,10 @@
             [DEFAULT]
             enabled_backends=disco
             default_volume_type=disco
-            rest_ip=10.203.126.7
+            #rest_ip=10.203.126.7
             # san_ip=10.203.126.7
-            choice_client=soap
-            disco_client_protocol = soap
+            #choice_client=soap
+            #disco_client_protocol = soap
             # client_protocol=soap
 
             [disco]
@@ -37,10 +37,10 @@
             volume_driver=cinder.volume.drivers.disco.disco.DiscoDriver
             volume_backend_name=disco
             disco_wsdl_path=/usr/cloudos/dms/conf/DISCOService.wsdl
-            rest_ip=10.203.126.7
+            #rest_ip=10.203.126.7
             # san_ip=10.203.126.7
-            choice_client=soap
-            disco_client_protocol = soap
+            disco_choice_client=soap
+            #disco_client_protocol = soap
             # client_protocol=soap
 
             # Use post-extra because the tempest configuration file is
